@@ -1,7 +1,8 @@
 class PrototypesController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_prototype, only: [:edit, :update, :destroy]
-  before_action :authorize_user!, only: [:edit, :update, :destroy]def index
+  before_action :authorize_user!, only: [:edit, :update, :destroy]
+  def index
     @prototypes = Prototype.with_attached_image.all
   end
 
@@ -52,7 +53,14 @@ class PrototypesController < ApplicationController
   def set_prototype
     @prototype = Prototype.find(params[:id])
   end
+
   def authorize_user!
-    redirect_to root_path
+    unless can_edit_prototype?
+      redirect_to root_path
+    end
+  end
+  def can_edit_prototype?
+    # ログインユーザーが自身のプロトタイプを編集できるかどうかを確認するロジック
+    @prototype.user == current_user
   end
 end
