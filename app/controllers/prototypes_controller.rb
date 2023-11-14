@@ -55,6 +55,12 @@ class PrototypesController < ApplicationController
   end
 
   def authorize_user!
-    redirect_to root_path
+    unless can_edit_prototype?
+      redirect_to root_path
+    end
+  end
+  def can_edit_prototype?
+    # ログインユーザーが自身のプロトタイプを編集できるかどうかを確認するロジック
+    @prototype.user == current_user
   end
 end
