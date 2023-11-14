@@ -1,7 +1,7 @@
 <main class="main">
   <div class="inner">
       <% if user_signed_in? %>
-    こんにちは、<%= link_to "#{current_user.name}さん", "/users/#{current_user.id}", class: :greeting__link %>
+    こんにちは、<%= link_to "#{current_user.name}さん", user_path(current_user), class: :greeting__link %>
     <% end %>
     <div class="card__wrapper">
       <% @prototypes.each do |prototype| %>
